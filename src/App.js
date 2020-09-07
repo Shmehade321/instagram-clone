@@ -6,6 +6,7 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Input } from "@material-ui/core";
 import ImageUpload from "./ImageUpload";
+import InstagramEmbed from 'react-instagram-embed';
 
 function getModalStyle() {
   const top = 50;
@@ -209,48 +210,50 @@ function App() {
           src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
           alt=""
         />
-      </div>
 
-      {user ? (
+        {user ? (
         <Button onClick={() => auth.signOut()}>Logout</Button>
-      ) : (
+          ) : (
         <div className="app__loginContainer">
           <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
           <Button onClick={() => setOpen(true)}>Sign Up</Button>
         </div>
-      )}
+        )}
+      </div>
 
-      <h1>Hello World! Welcome to React World. Lets Start.</h1>
 
-      {posts.map(({ id, post }) => (
-        <Post
-          key={id}
-          username={post.username}
-          caption={post.caption}
-          imageUrl={post.imageUrl}
+      <div className="app__posts">
+
+        <div className='app__postsLeft'>
+          {posts.map(({ id, post }) => (
+            <Post
+              key={id}
+              postId={id}
+              user={user}
+              username={post.username}
+              caption={post.caption}
+              imageUrl={post.imageUrl}
+            />
+          ))}
+        </div>
+
+        <div className='app__postsRight'>
+          <InstagramEmbed 
+          url='https://www.instagram.com/p/B_uf9dmAGPw/'
+          maxWidth={320}
+          hideCaption={false}
+          containerTagName='div'
+          protocol=''
+          injectScript
+          onLoading={() => {}}
+          onSuccess={() => {}}
+          onAfterRender={() => {}}
+          onFailure={() => {}}
         />
-      ))}
 
-      {/* <Post
-        username="mehadehasan"
-        caption="Wow it works"
-        imageUrl="https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"
-      />
-      <Post
-        username="aminurhasan"
-        caption="Awesome tutorial. It helps a lot"
-        imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png"
-      />
-      <Post
-        username="sharminakter"
-        caption="WOW look at that how nice it is"
-        imageUrl="https://www.openfaas.com/images/2019-asp-net-core/netcore.png"
-      />
-      <Post
-        username="liza"
-        caption="Never seen this before. Great!!!"
-        imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--ey3lvuv5--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://cdn-images-1.medium.com/max/1600/1%2AMfOHvI5b1XZKYTXIAKY7PQ.png"
-      /> */}
+        </div>
+        
+      </div>     
 
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />
